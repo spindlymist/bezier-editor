@@ -1,0 +1,119 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #2a2f33;
+  font-family: sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.editor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100vh;
+  padding: 1rem;
+}
+
+canvas {
+  display: block;
+  height: 95vmin;
+  width: 95vmin;
+  background: white;
+}
+
+.object-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: white;
+  height: 95vmin;
+  width: 25%;
+  margin-left: 1rem;
+}
+
+.object-list .object-list--objects {
+  overflow-y: auto;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.object-list .object-list--objects .object {
+  padding: 1rem;
+  margin: .25rem;
+  border: 1px solid lightgray;
+  -webkit-transition: border-color .2s, background-color .2s;
+  transition: border-color .2s, background-color .2s;
+  cursor: pointer;
+}
+
+.object-list .object-list--objects .object.selected {
+  border-color: #1b91ff;
+  background: #c1e1ff;
+}
+
+.object-list .object-list--objects .object:hover {
+  border-color: #1b91ff;
+}
+
+.object-list .object-list--objects .object.renaming {
+  padding: 0rem;
+}
+
+.object-list .object-list--objects .object input {
+  font-size: 1rem;
+  border: none;
+  padding: 1rem;
+  background: transparent;
+  width: 100%;
+}
+
+.object-list .object-list--controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: .25rem;
+}
+
+.object-list .object-list--controls .button {
+  border: 1px solid lightgray;
+  padding: .25rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  cursor: pointer;
+  -webkit-transition: border-color .2s;
+  transition: border-color .2s;
+  margin-right: .25rem;
+}
+
+.object-list .object-list--controls .button:last-child {
+  margin-right: 0;
+}
+
+.object-list .object-list--controls .button:hover {
+  border-color: orange;
+}
+/*# sourceMappingURL=style.css.map */
