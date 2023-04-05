@@ -20,13 +20,50 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="help-modal" aria-hidden="true">
+        <div class="veil" tabindex="-1" data-micromodal-close>
+            <div role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+                <header>
+                    <h2 id="help-modal-title">Help</h2>
+                    <button aria-label="Close modal" data-micromodal-close>Close</button>
+                </header>
+                <div id="help-modal-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Control</th>
+                                <th>Function</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Press H</td>
+                                <td>Show these instructions</td>
+                            </tr>
+                            <tr>
+                                <td>Press Esc</td>
+                                <td>Dismiss these instructions</td>
+                            </tr>
+                            <tr>
+                                <td>Hold ctrl + left click + drag</td>
+                                <td>Create a new curve</td>
+                            </tr>
+                            <tr>
+                                <td>Hold alt + left click + drag</td>
+                                <td>Move the selected curve</td>
+                            </tr>
+                            <tr>
+                                <td>Left click + drag</td>
+                                <td>Move a point on the selected curve</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script type="module">
-        import BezierEditor from './static/js/BezierEditor.js';
-
-        const canvas = document.querySelector('#canvas');
-        const objectList = document.querySelector('.object-list');
-        new BezierEditor(canvas, objectList);
-    </script>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+    <script type="module" src="/static/js/main.js"></script>
 </body>
 </html>

@@ -69,7 +69,10 @@ export default class ObjectList {
 
         input.addEventListener('focusout', () => this.commitRename(input));
         input.addEventListener('keyup', (e) => {
-            if(e.keyCode == 13) this.commitRename(input)
+            e.stopPropagation();
+            if(e.code === 'Enter') {
+                this.commitRename(input);
+            }
         });
 
         input.focus();
