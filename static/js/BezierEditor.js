@@ -15,6 +15,8 @@ export default class BezierEditor {
         this.state = EditorStates.Idle;
 
         this.canvas = canvas;
+        this.canvas.width = this.canvas.offsetWidth;
+        this.canvas.height = this.canvas.offsetHeight;
         this.ctx = canvas.getContext("2d");
 
         this.curves = [];
@@ -32,6 +34,11 @@ export default class BezierEditor {
         this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
         this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
         this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
+        window.addEventListener('resize', (e) => {
+            this.canvas.width = this.canvas.offsetWidth;
+            this.canvas.height = this.canvas.offsetHeight;
+            this.drawUI();
+        });
 
         this.objectList.addSelectedItemDeletedListener(() => {
             const index = this.curves.indexOf(this.selectedCurve);
