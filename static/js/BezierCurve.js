@@ -20,34 +20,34 @@ export default class BezierCurve {
         ctx.stroke();
     }
 
-    drawPoints(ctx, point, endPointsFill, controlPointFill) {
+    drawPoints(ctx, point, highlightedPoint, endPointFill, controlPointFill, backgroundFill) {
         const start = new Vector2(point);
         const end = point.plus(this.end);
         const controlPoint1 = point.plus(this.controlPoint1);
         const controlPoint2 = point.plus(this.controlPoint2);
 
         ctx.save();
-        ctx.fillStyle = endPointsFill;
 
-        ctx.beginPath();
-        ctx.ellipse(start.x, start.y, 7, 7, 0, 0, 2*Math.PI);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(end.x, end.y, 7, 7, 0, 0, 2*Math.PI);
-        ctx.fill();
-
-        ctx.fillStyle = controlPointFill;
-
-        ctx.beginPath();
-        ctx.ellipse(controlPoint1.x, controlPoint1.y, 4, 4, 0, 0, 2*Math.PI);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(controlPoint2.x, controlPoint2.y, 4, 4, 0, 0, 2*Math.PI);
-        ctx.fill();
+        this.drawPoint(ctx, start, 7, endPointFill, backgroundFill, highlightedPoint == CurvePoints.Start);
+        this.drawPoint(ctx, end, 7, endPointFill, backgroundFill, highlightedPoint == CurvePoints.End);
+        this.drawPoint(ctx, controlPoint1, 4, controlPointFill, backgroundFill, highlightedPoint == CurvePoints.Control1);
+        this.drawPoint(ctx, controlPoint2, 4, controlPointFill, backgroundFill, highlightedPoint == CurvePoints.Control2);
 
         ctx.restore();
+    }
+
+    drawPoint(ctx, point, radius, color, backgroundColor, filled) {
+        ctx.beginPath();
+        ctx.ellipse(point.x, point.y, radius, radius, 0, 0, 2*Math.PI);
+        if(filled) {
+            ctx.fillStyle = color;
+        }
+        else {
+            ctx.fillStyle = backgroundColor;
+        }
+        ctx.fill();
+        ctx.strokeStyle = color;
+        ctx.stroke();
     }
 
     getPointAlong(t) {
@@ -73,3 +73,11 @@ export default class BezierCurve {
     }
 
 }
+
+export const CurvePoints = {
+    None: "none",
+    Start: "start",
+    End: "end",
+    Control1: "control1",
+    Control2: "control2"
+};

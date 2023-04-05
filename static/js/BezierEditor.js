@@ -1,4 +1,4 @@
-import BezierCurve from './BezierCurve.js';
+import BezierCurve, { CurvePoints } from './BezierCurve.js';
 import Vector2 from './Vector2.js';
 import CanvasUtils from './CanvasUtils.js';
 import ObjectList from './ObjectList.js';
@@ -7,13 +7,6 @@ const EditorStates = {
     Idle: "idle",
     CreatingNewCurve: "creating new curve",
     MovingPoint: "moving point"
-};
-const CurvePoints = {
-    None: "none",
-    Start: "start",
-    End: "end",
-    Control1: "control1",
-    Control2: "control2"
 };
 
 export default class BezierEditor {
@@ -123,6 +116,13 @@ export default class BezierEditor {
         const point = CanvasUtils.GetCoordsFromEvent(this.canvas, e);
 
         switch(this.state) {
+            case EditorStates.Idle:
+                let handle = this.touchingPoint(point);
+                if(handle != this.highlightedHandle) {
+                    this.highlightedHandle = handle;
+                    this.drawUI();
+                }
+                break;
             case EditorStates.CreatingNewCurve:
                 this.endPoint = point;
                 this.drawUI();
@@ -194,7 +194,7 @@ export default class BezierEditor {
             this.ctx.save();
             this.ctx.strokeStyle = 'blue';
             this.selectedCurve.curve.drawCurve(this.ctx, this.selectedCurve.point);
-            this.selectedCurve.curve.drawPoints(this.ctx, this.selectedCurve.point, 'blue', '#f01010');
+            this.selectedCurve.curve.drawPoints(this.ctx, this.selectedCurve.point, this.highlightedHandle, 'blue', '#f01010', 'white');
             this.ctx.restore();
         }
 
@@ -218,22 +218,43 @@ export default class BezierEditor {
         if(this.selectedCurve === null) return CurvePoints.None;
 
         const relPoint = point.minus(this.selectedCurve.point);
+        const candidates = [
+            {
+                pointType: CurvePoints.Control1,
+                distance: Vector2.distance(relPoint, this.selectedCurve.curve.controlPoint1),
+                maxDistance: 8,
+            },
+            {
+                pointType: CurvePoints.Control2,
+                distance: Vector2.distance(relPoint, this.selectedCurve.curve.controlPoint2),
+                maxDistance: 8,
+            },
+            {
+                pointType: CurvePoints.End,
+                distance: Vector2.distance(relPoint, this.selectedCurve.curve.end),
+                maxDistance: 12,
+            },
+            {
+                pointType: CurvePoints.Start,
+                distance: relPoint.magnitude(),
+                maxDistance: 12,
+            },
+        ];
 
-        if(Vector2.distance(relPoint, this.selectedCurve.curve.controlPoint1) <= 3) {
-            return CurvePoints.Control1;
-        }
-        else if(Vector2.distance(relPoint, this.selectedCurve.curve.controlPoint2) <= 3) {
-            return CurvePoints.Control2;
-        }
-        else if(Vector2.distance(point, this.selectedCurve.point) <= 5) {
-            return CurvePoints.Start;
-        }
-        else if(Vector2.distance(relPoint, this.selectedCurve.curve.end) <= 5) {
-            return CurvePoints.End;
-        }
-        else {
-            return CurvePoints.None;
-        }
+        let closestPoint = {
+            pointType: CurvePoints.None,
+            distance: Infinity
+        };
+        closestPoint =
+            candidates
+            .filter(({ distance, maxDistance }) => {
+                return distance <= maxDistance;
+            })
+            .reduce((prev, curr) => {
+                return (curr.distance < prev.distance) ? curr : prev;
+            }, closestPoint);
+
+        return closestPoint.pointType;
     }
 
 }
