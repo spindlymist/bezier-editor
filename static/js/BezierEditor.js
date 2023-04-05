@@ -24,7 +24,7 @@ export default class BezierEditor {
 
         this.objectList = new ObjectList(list);
         this.objectList.serializeItemCallback = curve => {
-            return curve.curve.toString();
+            return curve.curve.toNormalizedString(this.canvas.width, this.canvas.height);
         };
 
         this.registerEventListeners();

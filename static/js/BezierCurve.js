@@ -61,6 +61,16 @@ export default class BezierCurve {
         return `{endX:${this.end.x},endY:${this.end.y},cp1X:${this.controlPoint1.x},cp1Y:${this.controlPoint1.y},cp2X:${this.controlPoint2.x},cp2Y:${this.controlPoint2.y}}`;
     }
 
+    toNormalizedString(width, height) {
+        const endX = this.end.x / width;
+        const endY = this.end.y / height;
+        const cp1X = this.controlPoint1.x / width;
+        const cp1Y = this.controlPoint1.y / height;
+        const cp2X = this.controlPoint2.x / width;
+        const cp2Y = this.controlPoint2.y / height;
+        return `{endX:${endX},endY:${endY},cp1X:${cp1X},cp1Y:${cp1Y},cp2X:${cp2X},cp2Y:${cp2Y}}`;
+    }
+
     static getPointOnLine(start, end, t) {
         return start.times(1 - t).plus(end.times(t));
     }
